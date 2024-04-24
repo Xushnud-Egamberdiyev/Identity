@@ -42,6 +42,18 @@ options.TokenValidationParameters = new TokenValidationParameters
     };
 });
 
+var MyPolicy = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options => {
+    options.AddPolicy(name: MyPolicy, policy =>
+    {
+        policy.AllowAnyHeader()
+               .AllowAnyOrigin()
+               .AllowAnyMethod();
+    });
+});
+
+
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddControllers();
@@ -71,6 +83,15 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(MyPolicy);
+
+//app.UseCors(options =>
+//{
+//    options.AllowAnyHeader();
+//    options.AllowAnyMethod();
+//    options.AllowAnyOrigin();
+//});
 
 app.UseAuthentication();
 app.UseAuthorization();

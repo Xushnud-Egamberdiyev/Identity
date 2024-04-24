@@ -1,4 +1,5 @@
 ﻿using Identity.DTOs;
+using Identity.Filter;
 using Identity.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -20,7 +21,7 @@ namespace Identity.Controllers
             _roleManager = roleManager;
         }
 
-        [HttpPost]
+        [Permission]        
         public async Task<ActionResult<ResponseDto>> CreateRole(RoleDto role)
         {
 
