@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class RolesController : ControllerBase
     {
@@ -51,6 +51,40 @@ namespace Identity.Controllers
             var roles = await _roleManager.Roles.ToListAsync();
 
             return Ok(roles);
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> DeleteRoles(string roleName)
+        {
+            var role = await _roleManager.FindByNameAsync(roleName);
+
+            if (role is null)
+                throw new Exception("Role Not Found!");
+
+            var result = await _roleManager.DeleteAsync(role);
+
+            return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateRole(string rolename, string updateRole)
+        {
+            var role = await _roleManager.FindByNameAsync(rolename);
+
+            if (role is null)
+                throw new Exception("Role Not Found!");
+
+            role.Name = updateRole;
+            role.NormalizedName = updateRole.ToUpper();
+
+            var update = await _roleManager.UpdateAsync(role);
+            
+            if(!update.Succeeded)
+            {
+                throw new Exception("role update failed");
+            }
+
+            return Ok(update);
         }
     }
 }
