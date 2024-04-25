@@ -21,7 +21,8 @@ namespace Identity.Controllers
             _roleManager = roleManager;
         }
 
-        [Permission]        
+        [Permission]
+        [ExceptionFilter]
         public async Task<ActionResult<ResponseDto>> CreateRole(RoleDto role)
         {
 
@@ -47,6 +48,7 @@ namespace Identity.Controllers
             });
         }
         [HttpGet]
+        [ExceptionFilter]
         public async Task<ActionResult<List<IdentityRole>>> GetAllRoles()
         {
             var roles = await _roleManager.Roles.ToListAsync();
@@ -55,6 +57,7 @@ namespace Identity.Controllers
         }
 
         [HttpDelete]
+        [ExceptionFilter]
         public async Task<ActionResult> DeleteRoles(string roleName)
         {
             var role = await _roleManager.FindByNameAsync(roleName);
@@ -68,6 +71,7 @@ namespace Identity.Controllers
         }
 
         [HttpPut]
+        [ExceptionFilter]
         public async Task<IActionResult> UpdateRole(string rolename, string updateRole)
         {
             var role = await _roleManager.FindByNameAsync(rolename);
