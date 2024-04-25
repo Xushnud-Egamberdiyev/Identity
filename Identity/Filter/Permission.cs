@@ -24,6 +24,5 @@ namespace Identity.Filter
             }
         }
 
-        qoganiga vaqt yetmay qoldi ertalab darsgacha tugatib qoyaman
     }
 }
